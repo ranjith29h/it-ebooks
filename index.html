@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <title></title>
+  </head>
+  <body ng-app="itebooks">
+    <div ng-include="'template/header.html'"></div>
+    <div ng-include="'template/nav.html'"></div>
+    <div ng-view></div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="http://code.angularjs.org/1.2.2/angular-animate.min.js"></script>
+    <script>
+
+        var app = angular.module("itebooks",["ngRoute"]);
+
+        app.config(function($routeProvider){
+            $routeProvider
+            .when('/',{
+              templateUrl : "template/main.html",
+              controller :"mainCtrl"
+            })
+            .when("/get/:ID", {
+              templateUrl : "template/search.html",
+              controller : "searchCtrl"
+            });
+        });
+
+        app.controller('mainCtrl',function($scope,apiFactory){
+          $scope.msg = "AM MAIN";
+          $scope.book = [];
+          var total_ebooks = ['Php','Json','Javascript','Html','Mysql'];
+          console.log(total_ebooks.length);
+          // for(var j=0;j<=total_ebooks.length;j++){
+          //   apiFactory.getBooks(total_ebooks[j])
+          // .then(function (response) {
+          //     for(k=0;k<5;i++){
+          //       $scope.book.push(response.data.Books[k]);
+          //     }
+          // }, function (error) {
+          //     $scope.details = 'Unable to load customer data: ' + error.message;
+          // });
+          // }
+
+        total_ebooks.forEach(function(element){
+            apiFactory.getBooks(element)
+          .then(function (response) {
+              for(k=0;k<5;k++){
+                $scope.book.push(response.data.Books[k]);
+                // console.log(k);
+              }
+          }, function (error) {
+              $scope.details = 'Unable to load customer data: ' + error.message;
+          });
+        })
+
+
+
+        });
+
+
+
+
+
+        app.factory('apiFactory',['$http',function($http){
+
+            var base_url = "http://it-ebooks-api.info/v1/search/";
+            var apiFactory = {};
+
+            apiFactory.getBooks = function(ebook){
+                return $http.get(base_url + ebook);
+            };
+            apiFactory.getMoreBooks = function(ebook,page){
+              return $http.get(base_url + ebook + '/page/'+page);
+            }
+            return apiFactory;
+
+        }]);
+
+
+        app.controller('searchCtrl',function($scope,$routeParams,$http,apiFactory){
+            $scope.data = $routeParams.ID;
+            var per_page_data = 10;
+            fetch();
+            function fetch() {
+              apiFactory.getBooks($scope.data)
+            .then(function (response) {
+                // $scope.details = response.data;
+                $scope.book = response.data.Books;
+                console.log($scope.book);
+            }, function (error) {
+                $scope.details = 'Unable to load customer data: ' + error.message;
+            });
+            }
+
+            $scope.loadMore = function(){
+              console.log("book length",$scope.book.length);
+              console.log("per page",per_page_data);
+                var page_no = ($scope.book.length /per_page_data ) + 1;
+                console.log(page_no);
+                apiFactory.getMoreBooks($scope.data,page_no).then(function(response){
+                  for(var i=0;i<response.data.Books.length;i++){
+                  $scope.book.push(response.data.Books[i]);
+                }
+                  // console.log(response.data.Books[0]);
+
+                },function(response){
+                      console.log(error.message);
+                });
+
+            }
+
+        });
+
+    </script>
+  </body>
+</html>

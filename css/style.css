@@ -1,0 +1,75 @@
+body,html{
+  background-color: #fafafa;
+}
+.navbar {
+    padding-top: 6px;
+    padding-bottom: 1px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #757575;
+    background-color: white;
+    height: 60px;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+}
+.navbar ul li{
+  letter-spacing: 0;
+    opacity: .87;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.navbar-nav li a:hover {
+    color: #1abc9c !important;
+}
+.nav-container nav{
+  text-align: center;
+}
+.nav-container{
+  padding: 0.5% 1% 0.5% 1%;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+}
+.nav-container a{
+  color: white;
+  margin: 2%;
+  font-size: 15px;
+}
+
+.container-fluid {
+  background-color: #3F51B5;
+}
+.main_book_container{
+  margin-top: 4%;
+}
+.book_item{
+  background-color: white;
+  padding: 0 !important;
+  margin: 0 auto;
+  float: none;
+  display: table;
+  border: 3px solid #f5f5f5;
+  margin-top: 0.5%;
+}
+.book_item a{
+  padding: 0 !important;
+}
+.book_desc{
+  display: inline-block;
+}
+.desc_data{
+  color: #9E9E9E;
+}
+.subtitle_data{
+  font-size: 12px;
+}
+
+.load_more{
+  text-align:center;
+  margin: 2% 0%;
+}
+.load_more button{
+  background-color: white;
+  border: 1px solid #757575;
+  padding: 0.5% 2%;
+}

@@ -1,0 +1,22 @@
+<div class="main_book_container">
+  <div class="book_item" ng-if="!book">
+         <img src="images/loading.gif" />
+ </div>
+
+  <div class="col-md-8 book_item" ng-repeat="data in book">
+    <a href="" class="col-md-2">
+      <div ng-if="!data.Image">
+        Loading....
+      </div>
+      <img ng-src="{{data.Image}}" alt="data.title" width="130" height="150"/>
+    </a>
+    <div class="col-md-9 book_desc">
+        <h5>{{data.Title}}</h5>
+        <p class="subtitle_data">{{data.SubTitle}}</p>
+        <p class="desc_data">{{data.Description}}</p>
+    </div>
+  </div>
+  <div class="load_more" ng-if="book" style="">
+      <button ng-click="loadMore()">Load more</button>
+  </div>
+</div>
